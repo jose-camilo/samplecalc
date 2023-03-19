@@ -107,7 +107,8 @@ jobs:
 workflows:
   main:
     jobs:
-      - unit-tests
+      - unit-tests:
+          context: slack-secrets
       - build-arm64:
           requires:
             - unit-tests
