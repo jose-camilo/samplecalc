@@ -108,6 +108,17 @@ workflows:
       - build-386:
           requires:
             - unit-tests
+      - promote:
+          type: approval
+          requires:
+            - build-arm64
+            - build-amd64
+            - build-386
+      - dummy-release:
+          type: approval
+          requires:
+            - promote
+
 
 
 

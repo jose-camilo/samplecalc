@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	AddOperation = "add"
-	SubOperation = "sub"
+	addOperation = "add"
+	subOperation = "sub"
 )
 
 func main() {
@@ -20,9 +20,9 @@ func main() {
 
 	var result *big.Int
 	switch os.Args[1] {
-	case AddOperation:
+	case addOperation:
 		result = operations.Add(scanStringToBig(os.Args[2]), scanStringToBig(os.Args[3]))
-	case SubOperation:
+	case subOperation:
 		result = operations.Sub(scanStringToBig(os.Args[2]), scanStringToBig(os.Args[3]))
 	default:
 		fmt.Printf("\nWrong operation: the only options available are %q and %q", "add", "sub")
