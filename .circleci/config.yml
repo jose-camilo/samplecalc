@@ -59,8 +59,8 @@ jobs:
 workflows:
   main:
     jobs:
-      - build:
-      - unit-tests:
+      - build
+      - unit-tests
 
 
 
