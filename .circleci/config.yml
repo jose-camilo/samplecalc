@@ -57,11 +57,7 @@ jobs:
           command: go test -cover -v $(go list ./... | circleci tests split --split-by=timings)
       - store_artifacts:
           path: /tmp/testSub.out
-          destination: unit-test-output
-
-  notify-build:
-
-
+          destination: unit-test-outpu
 
 workflows:
   main:
