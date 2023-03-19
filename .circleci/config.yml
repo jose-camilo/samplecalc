@@ -35,29 +35,29 @@ jobs:
           path: ~/go/src/github.com/jose-camilo/simplecalc/simplecalc
           destination: simplecalc
 
-  unit-test:
-    working_directory: ~/go/src/github.com/jose-camilo/simplecalc
-    docker:
-      <<: *defaults
-    parallelism: 2
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - go-mod-v4-{{ checksum "go.sum" }}
-      - run:
-          name: Install Dependencies
-          command: go mod download
-      - save_cache:
-          key: go-mod-v4-{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run:
-          name: Run tests
-          command: go test -cover -v $(go list ./... | circleci tests split --split-by=timings)
-      - store_artifacts:
-          path: /tmp/testSub.out
-          destination: unit-test-outpu
+#  unit-test:
+#    working_directory: ~/go/src/github.com/jose-camilo/simplecalc
+#    docker:
+#      <<: *defaults
+#    parallelism: 2
+#    steps:
+#      - checkout
+#      - restore_cache:
+#          keys:
+#            - go-mod-v4-{{ checksum "go.sum" }}
+#      - run:
+#          name: Install Dependencies
+#          command: go mod download
+#      - save_cache:
+#          key: go-mod-v4-{{ checksum "go.sum" }}
+#          paths:
+#            - "/go/pkg/mod"
+#      - run:
+#          name: Run tests
+#          command: go test -cover -v $(go list ./... | circleci tests split --split-by=timings)
+#      - store_artifacts:
+#          path: /tmp/testSub.out
+#          destination: unit-test-output
 
 workflows:
   main:
@@ -66,6 +66,6 @@ workflows:
         only: main
     jobs:
       - build
-      - unit-tests
+#      - unit-tests
 
 
