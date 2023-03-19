@@ -28,6 +28,12 @@ jobs:
           path: /tmp/test.out
           destination: unit-test-output
           when: always
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
 
   build-arm64:
     working_directory: ~/go/src/github.com/jose-camilo/simplecalc
@@ -95,6 +101,8 @@ jobs:
           path: ~/go/src/github.com/jose-camilo/simplecalc/simplecalc
           destination: simplecalc-amd64
 
+  notify:
+
 
 workflows:
   main:
@@ -109,6 +117,7 @@ workflows:
       - build-386:
           requires:
             - unit-tests
+
 
 
 
