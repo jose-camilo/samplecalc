@@ -54,13 +54,16 @@ jobs:
       - store_artifacts:
           path: /tmp/test.out
           destination: unit-test-output
+          when: always
 
 
 workflows:
   main:
     jobs:
-      - build
       - unit-tests
+      - build:
+          requires:
+            - unit-tests
 
 
 
