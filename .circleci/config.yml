@@ -61,7 +61,7 @@ workflows:
       - build
           filters:
             branches:
-            only: main
+              only: master
       - unit-tests
 
 
