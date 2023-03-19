@@ -24,23 +24,6 @@ jobs:
       - run:
           name: Run tests
           command: go test -cover -v $(go list ./... | circleci tests split --split-by=timings) |& tee /tmp/test.out
-      - slack/notify:
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "BUILD FAILED: ${CIRCLE_BUILD_URL}",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
-          event: always
 
   build-arm64:
     working_directory: ~/go/src/github.com/jose-camilo/simplecalc
@@ -114,6 +97,10 @@ jobs:
 workflows:
   main:
     jobs:
+      - when:
+          or:
+            - equal: [ main, << pipeline.git.branch >> ]
+            - equal: [ develop, << pipeline.git.branch >> ]
       - unit-tests:
           context: slack-secrets
       - build-arm64:
