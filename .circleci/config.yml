@@ -54,13 +54,10 @@ jobs:
       - store_artifacts:
           path: /tmp/test.out
           destination: unit-test-output
+          when: always
 
 workflows:
   main:
-    when:
-      or:
-        - equal: [ main, << pipeline.git.branch >> ]
-        - equal: [ develop, << pipeline.git.branch >> ]
     jobs:
       - build:
       - unit-tests:
