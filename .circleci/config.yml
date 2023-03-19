@@ -31,7 +31,7 @@ jobs:
           path: ~/go/src/github.com/jose-camilo/simplecalc/simplecalc
           destination: simplecalc
 
-  unit-test:
+  unit-tests:
     working_directory: ~/go/src/github.com/jose-camilo/simplecalc
     docker:
       - image: cimg/go:1.18
