@@ -108,7 +108,7 @@ workflows:
             - unit-tests
       - build-386:
           requires:
-            -unit-tests
+            - unit-tests
 
 
 
