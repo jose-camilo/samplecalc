@@ -57,11 +57,11 @@ jobs:
 
 workflows:
   main:
-#    filters:
-#      branches:
-#        only: main
     jobs:
       - build
+          filters:
+            branches:
+            only: main
       - unit-tests
 
 
