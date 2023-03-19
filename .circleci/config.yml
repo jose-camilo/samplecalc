@@ -57,11 +57,13 @@ jobs:
 
 workflows:
   main:
+    when:
+      or:
+        - equal: [ main, << pipeline.git.branch >> ]
+        - equal: [ develop, << pipeline.git.branch >> ]
     jobs:
       - build:
-          filters:
-            branches:
-              only: master
-      - unit-tests
+      - unit-tests:
+
 
 
