@@ -33,7 +33,7 @@ jobs:
                   "fields": [
                     {
                       "type": "plain_text",
-                      "text": "*This is a text notification*",
+                      "text": "BUILD FAILED: ${CIRCLE_BUILD_URL}",
                       "emoji": true
                     }
                   ]
