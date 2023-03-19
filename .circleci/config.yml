@@ -97,10 +97,6 @@ jobs:
 workflows:
   main:
     jobs:
-      - when:
-          or:
-            - equal: [ main, << pipeline.git.branch >> ]
-            - equal: [ develop, << pipeline.git.branch >> ]
       - unit-tests:
           context: slack-secrets
       - build-arm64:
