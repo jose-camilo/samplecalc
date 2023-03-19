@@ -50,9 +50,9 @@ jobs:
             - "/go/pkg/mod"
       - run:
           name: Run tests
-          command: go test -cover -v $(go list ./... | circleci tests split --split-by=timings)
+          command: go test -cover -v $(go list ./... | circleci tests split --split-by=timings) |& tee /tmp/test.out
       - store_artifacts:
-          path: /tmp/testSub.out
+          path: /tmp/test.out
           destination: unit-test-output
 
 workflows:
