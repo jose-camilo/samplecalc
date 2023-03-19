@@ -2,7 +2,7 @@ version: '2.1'
 
 orbs:
   slack: circleci/slack@4.12.1
-  
+
 defaults: &defaults
   docker:
     - image: cimg/go:1.18
@@ -71,7 +71,6 @@ workflows:
     jobs:
       - build
       - unit-tests
-      - notify-build
         requires:
           - build
           - unit-tests
