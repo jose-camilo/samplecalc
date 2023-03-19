@@ -1,23 +1,79 @@
 version: '2.1'
 
 orbs:
-  go: circleci/go@1.7.0  # Version number pertains to CircleCI Orb version, not Go version
+  slack: circleci/slack@4.12.1
+  
+defaults: &defaults
+  docker:
+    - image: cimg/go:1.18
 
 jobs:
-  unit-tests:
-    executor:
-      name: go/default
-      tag: '1.18'
+  build:
+    working_directory: ~/go/src/github.com/jose-camilo/simplecalc
+    docker:
+      <<: *defaults
     steps:
       - checkout
-      - go/load-cache
-      - go/mod-download
-      - go/save-cache
-      - go/test:
-          covermode: atomic
-          race: true
-          verbose: true
+      - restore_cache:
+          name: Restore Cached Dependencies
+          keys:
+            - go-mod-v4-{{ checksum "go.sum" }}
+      - run:
+          name: Update Dependencies
+          command: go mod download
+      - save_cache:
+          name: Cache Dependencies
+          key: go-mod-v4-{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run:
+          name: Build
+          command: |
+            go build -o simplecalc .
+      - store_artifacts:
+          name: Push Image
+          path: ~/go/src/github.com/jose-camilo/simplecalc/simplecalc
+          destination: simplecalc
+
+  unit-test:
+    working_directory: ~/go/src/github.com/jose-camilo/simplecalc
+    docker:
+      <<: *defaults
+    parallelism: 2
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - go-mod-v4-{{ checksum "go.sum" }}
+      - run:
+          name: Install Dependencies
+          command: go mod download
+      - save_cache:
+          key: go-mod-v4-{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run:
+          name: Run tests
+          command: go test -cover -v $(go list ./... | circleci tests split --split-by=timings)
+      - store_artifacts:
+          path: /tmp/testSub.out
+          destination: unit-test-output
+
+  notify-build:
+
+
+
 workflows:
   main:
+    filters:
+      branches:
+        only: main
     jobs:
+      - build
       - unit-tests
+      - notify-build
+        requires:
+          - build
+          - unit-tests
+
+
