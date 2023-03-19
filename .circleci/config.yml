@@ -24,16 +24,23 @@ jobs:
       - run:
           name: Run tests
           command: go test -cover -v $(go list ./... | circleci tests split --split-by=timings) |& tee /tmp/test.out
-      - store_artifacts:
-          path: /tmp/test.out
-          destination: unit-test-output
-          when: always
       - slack/notify:
-          event: fail
-          template: basic_fail_1
-      - slack/notify:
-          event: pass
-          template: success_tagged_deploy_1
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: always
 
   build-arm64:
     working_directory: ~/go/src/github.com/jose-camilo/simplecalc
