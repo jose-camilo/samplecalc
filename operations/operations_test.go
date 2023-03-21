@@ -48,6 +48,6 @@ func TestSub(t *testing.T) {
 		secondNumber := big.NewInt(int64(tc.secondNumber))
 
 		result := firstNumber.Sub(firstNumber, secondNumber)
-		assert.Equal(t, result, Sub(firstNumber, secondNumber), fmt.Sprintf("failed to substract: %d and %d", tc.firstNumber, tc.secondNumber))
+		assert.Equal(t, result, Sub(firstNumber, secondNumber), fmt.Sprintf("failed to subtract: %d and %d", tc.firstNumber, tc.secondNumber))
 	}
 }

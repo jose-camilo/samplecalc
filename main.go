@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/jose-camilo/simplecalc/operations"
 	"math/big"
 	"os"
+
+	"github.com/jose-camilo/simplecalc/operations"
 )
 
 const (

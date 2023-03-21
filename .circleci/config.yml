@@ -1,9 +1,7 @@
 version: '2.1'
 
-orbs:
-  slack: circleci/slack@4.12.1
-
 jobs:
+  ########################## UNIT TESTS ##########################
   unit-tests:
     working_directory: ~/go/src/github.com/jose-camilo/simplecalc
     docker:
@@ -25,6 +23,7 @@ jobs:
           name: Run tests
           command: go test -cover -v $(go list ./... | circleci tests split --split-by=timings) |& tee /tmp/test.out
 
+  ########################## ARM64 BUILD ##########################
   build-arm64:
     working_directory: ~/go/src/github.com/jose-camilo/simplecalc
     docker:
@@ -47,6 +46,7 @@ jobs:
           path: ~/go/src/github.com/jose-camilo/simplecalc/simplecalc
           destination: simplecalc-arm64
 
+  ########################## 386 BUILD ##########################
   build-386:
     working_directory: ~/go/src/github.com/jose-camilo/simplecalc
     docker:
@@ -69,6 +69,7 @@ jobs:
           path: ~/go/src/github.com/jose-camilo/simplecalc/simplecalc
           destination: simplecalc-386
 
+  ########################## AMD64 BUILD ##########################
   build-amd64:
     working_directory: ~/go/src/github.com/jose-camilo/simplecalc
     docker:
@@ -91,14 +92,13 @@ jobs:
           path: ~/go/src/github.com/jose-camilo/simplecalc/simplecalc
           destination: simplecalc-amd64
 
-  notify:
-
-
 workflows:
   main:
     jobs:
-      - unit-tests:
-          context: slack-secrets
+      - unit-tests
+          filters:
+            branches:
+              only: main
       - build-arm64:
           requires:
             - unit-tests
