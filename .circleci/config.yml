@@ -95,7 +95,7 @@ jobs:
 workflows:
   main:
     jobs:
-      - unit-tests
+      - unit-tests:
           filters:
             branches:
               only: main
